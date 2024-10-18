@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Cridem a l'endpoint de l'API fent un fetch
-    fetch('http://127.0.0.1:8000/alumnes/list')
+    fetch('http://127.0.0.1:8000/alumne/listAll')
         .then(response => {
             if (!response.ok) {
                 throw new Error("Error a la resposta del servidor");
@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             const alumnesTableBody = document.querySelector("#tablaAlumne tbody");
             alumnesTableBody.innerHTML = ""; // Netejar la taula abans d'afegir res
             
@@ -15,22 +16,26 @@ document.addEventListener("DOMContentLoaded", function() {
             data.forEach(alumne => {
                 const row = document.createElement("tr");
 
-                const nomAluCell = document.createElement("td");
-                nomAluCell.textContent = alumne.NomAlumne;
-                row.appendChild(nomAluCell);
+                const nomAlumne = document.createElement("td");
+                nomAlumne.textContent = alumne.nomAlumne;
+                row.appendChild(nomAlumne);
                 
                 // Repetir per tots els altres camps restants que retorna l'endpoint
-                const cicleCell = document.createElement("td");
-                cicleCell.textContent = alumne.Cicle;
-                row.appendChild(cicleCell);
+                const cicle = document.createElement("td");
+                cicle.textContent = alumne.cicle;
+                row.appendChild(cicle);
 
-                const grupCell = document.createElement("td");
-                grupCell.textContent = alumne.Grup;
-                row.appendChild(grupCell);
+                const curs = document.createElement("td");
+                curs.textContent = alumne.curs;
+                row.appendChild(curs);
 
-                const aulaCell = document.createElement("td");
-                aulaCell.textContent = alumne.IdAula;
-                row.appendChild(aulaCell);
+                const grup = document.createElement("td");
+                grup.textContent = alumne.grup;
+                row.appendChild(grup);
+
+                const descAula = document.createElement("td");
+                descAula.textContent = alumne.descAula  || alumne.aula?.descAula || "No disponible";; ;
+                row.appendChild(descAula);
 
                 alumnesTableBody.appendChild(row);
             });
