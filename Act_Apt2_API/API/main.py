@@ -1,11 +1,11 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 import db_alumnat
-import alumnes
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi import FastAPI, File, UploadFile
+from sqlalchemy.orm import Session
 app = FastAPI()
 
 app.add_middleware(
@@ -37,3 +37,31 @@ def read_all_alumnes():
         raise HTTPException(status_code=404, detail="No hi ha alumnes enregistrats")
     
     return alumnes
+
+@app.get("/alumne/list", response_model=List[tablaAlumne])
+def read_alumnes_ordered(orderby: Optional[str] = Query(None, regex="^(asc|desc)$")):
+    alumnes = db_alumnat.get_alumnes_ordered(orderby)  # Crida al mètode per recuperar alumnes ordenats
+
+    if not alumnes or (isinstance(alumnes, dict) and 'status' in alumnes):  # Comprova si hi ha un error
+        raise HTTPException(status_code=404, detail="No hi ha alumnes enregistrats")
+    
+    return alumnes
+
+@app.get("/alumnes/list", response_model=List[tablaAlumne])
+def read_alumnes_list(
+    orderby: Optional[str] = Query(None), 
+    contain: Optional[str] = Query(None),
+    skip: int = Query(0, ge=0),  # Valor mínim: 0
+    limit: int = Query(10, le=100)  # Valor màxim: 100
+):
+    alumnes = db_alumnat.get_alumnes_paginated(orderby, contain, skip, limit)
+
+    if not alumnes or (isinstance(alumnes, dict) and 'status' in alumnes):  # Comprova si hi ha un error
+        raise HTTPException(status_code=404, detail="No hi ha alumnes enregistrats")
+    
+    return alumnes
+
+
+
+# @app.post("/alumne/loadAlumnes", response_model=List[tablaAlumne])
+# def load_alumnes():
