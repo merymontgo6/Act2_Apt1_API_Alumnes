@@ -10,6 +10,10 @@ No realitza cap operació de gestió de dades, sinó que simplement indica que e
 
 ![image](https://github.com/user-attachments/assets/5388c8c9-6cef-49d9-b8ab-1af11fe9fc51)
 
-#### GET ""/alumne/listAll""
+#### GET "/alumne/listAll"
 La funció read_alumnes en el controlador /alumnes/list està dissenyada per obtenir una llista d'alumnes des de la base de dades.
-Amb opcions de filtratge, ordenació, i paginació, a partir de paràmetres de consulta (query parameters). 
+
+![image](https://github.com/user-attachments/assets/21e50f4d-886c-49a6-a568-7bcc9ee24e58)
+
+#### GET "/alumnes/list"
+Aquest mètode està dissenyat per obtenir una llista d'alumnes des de la base de dades Amb opcions de filtratge, ordenació, i paginació, a partir de paràmetres de consulta (query parameters). 
