@@ -37,7 +37,7 @@ def fetch_all_alumnes():
 
     return alumnes_list
 
-def get_alumnes_paginated(orderby: Optional[str], contain: Optional[str], skip: int, limit: int):
+def get_alumnes_orders(orderby: Optional[str], contain: Optional[str], skip: int, limit: int):
     try:
         conn = db_client()
         cur = conn.cursor()
